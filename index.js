@@ -1,13 +1,28 @@
-const http = require('http')
+const fs = require('fs')
+const input = process.argv;
 
-http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-Type': 'application/json'
-    })
-    res.write(JSON.stringify({
-        name: 'Vicky',
-        email: 'vicky@test.com',
-        contact: 'use same email'
-    }))
-    res.end();
-}).listen(4440)
+switch (input[2]) {
+    case 'add':
+        {
+            const fileName = input[3]
+            const fileContents = input[4]
+            if (fileName.includes('.') && typeof fileContents === 'string') {
+                fs.writeFileSync(input[3], input[4])
+            } else {
+                console.log('invalid params for adding new file')
+            }
+        }
+        break
+    case 'remove':
+        {
+            const fileName = input[3]
+            if (fileName.includes('.')) {
+                fs.unlinkSync(input[3])
+            } else {
+                console.log('invalid params for removing file')
+            }
+        }
+        break
+    default:
+        console.log('invalid input');
+}
