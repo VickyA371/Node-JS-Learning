@@ -1,28 +1,14 @@
 const fs = require('fs')
-const input = process.argv;
+const path = require('path');
 
-switch (input[2]) {
-    case 'add':
-        {
-            const fileName = input[3]
-            const fileContents = input[4]
-            if (fileName.includes('.') && typeof fileContents === 'string') {
-                fs.writeFileSync(input[3], input[4])
-            } else {
-                console.log('invalid params for adding new file')
-            }
-        }
-        break
-    case 'remove':
-        {
-            const fileName = input[3]
-            if (fileName.includes('.')) {
-                fs.unlinkSync(input[3])
-            } else {
-                console.log('invalid params for removing file')
-            }
-        }
-        break
-    default:
-        console.log('invalid input');
+const dirPath = path.join(__dirname, 'files')
+console.log('dirPath : ', dirPath)
+
+for (let i = 0; i < 5; i++) {
+    const fileName = dirPath + `/hello${i+1}.txt`
+    fs.writeFileSync(fileName, `this is content of file ${fileName}`)
 }
+
+fs.readdirSync(dirPath).forEach((files) => {
+    console.log('files : ', files)
+})
