@@ -19,8 +19,7 @@ app.get('/profile', (_, res) => {
     const user = {
         name: 'Vicky Ahuja',
         email: 'vicky@test.com',
-        mobile: '0099887766',
-        skills: ['html', 'css', 'node', 'js', 'php', 'react', 'ios', 'android']
+        mobile: '0099887766'
     }
     res.render(`profile`, {user})
 })
