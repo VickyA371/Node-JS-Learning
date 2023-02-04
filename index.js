@@ -7,25 +7,24 @@ const publicPath = path.join(__dirname, 'public')
 
 app.use(express.static(publicPath))
 
-// app.get('', (req, res) => {
-//     const name = req.query.name
-//     res.send(`
-//         <h1>Welcome, ${name ?? 'User'}</h1>
-//         <a href="/about">Go to about page</a>
-//     `)
-// })
+/**
+ * using below code we dont need to write file extension to access route
+ */
 
-// app.get('/about', (req, res) => {
-//     const name = req.query.name
-//     res.send(`
-//         <h1>About us</h1>
-//         <input type="text" placeholder="Enter name" value="${name ?? ''}" />
-//         <a href="/">Go to Home</a>
-//     `)
-// })
+app.get('', (_, res) => {
+    res.sendFile(`${publicPath}/index.html`)
+})
 
-// app.get('/help', (req, res) => {
-//     res.send('Welcome to help page')
-// })
+app.get('/about', (_, res) => {
+    res.sendFile(`${publicPath}/about.html`)
+})
+
+app.get('/help', (_, res) => {
+    res.sendFile(`${publicPath}/help.html`)
+})
+
+app.get('*', (_, res) => {
+    res.sendFile(`${publicPath}/nopage.html`)
+})
 
 app.listen(5000)
