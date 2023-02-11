@@ -1,27 +1,32 @@
 const express = require('express');
 
+const filterMiddleware = require('./Middleware') // ** impoorting middleware from different file
+
 const app = express();
 
-// Middleware
+const route = express.Router(); // ** create route to apple route level middleware
 
-const customMiddleware = (req, res, next) => {
-    if (!req.query.age) {
-        res.send('Please provide age.')
-    } else if (req.query.age < 18) {
-        res.send('You cannot access the content of the page.')
-    } else {
-        next(); // must call this function when not calling send method, next method to continue route process
-    }
-}
-
-app.use(customMiddleware)
+route.use(filterMiddleware);
 
 app.get('/', (req, res) => {
-    res.send("Welcome")
+    res.send("Welcome to Home")
 })
 
-app.get('/users', (req, res) => {
-    res.send("Users")
+// apply middleware in individual route
+app.get('/users', filterMiddleware, (req, res) => {
+    res.send("Welcome to Users page")
 })
+
+// ** route level middleware
+route.get('/about', (req, res) => {
+    res.send("Welcome to About Page.")
+})
+
+// ** route level middleware
+route.get('/help', (req, res) => {
+    res.send("Welcome to help page.")
+})
+
+app.use('/', route)
 
 app.listen(5000)
